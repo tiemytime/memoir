@@ -1,0 +1,81 @@
+@import "../shared/theme.css";
+
+body {
+  width: 300px;
+}
+
+.popup {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.popup-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.popup-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.18);
+}
+
+.popup-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.popup-tagline {
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.65;
+  margin: 0;
+}
+
+.popup-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.popup-stat-loading {
+  opacity: 0.5;
+}
+
+.popup-stat-count {
+  font-weight: 600;
+}
+
+.popup-stat-latest {
+  opacity: 0.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.popup-open-button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent-strong);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.popup-open-button:hover {
+  opacity: 0.9;
+}
