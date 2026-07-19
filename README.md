@@ -66,7 +66,8 @@ connection instead of leaving you to rediscover it from scratch:
 ## Built vs. roadmap
 
 **Built:** notebook + context-aware AI expansion, local learning-session
-storage, tag-based connected-learning recall, session history with
+storage, tag-based connected-learning recall, a Connections view that groups
+every past session by shared concept tag, session history with
 search/delete, blocked-page guard so sessions only bind to real content.
 
 **Deliberately not built for this build** (multi-month scope, not a 12-hour
