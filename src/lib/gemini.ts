@@ -24,14 +24,16 @@ interface CallGeminiParams {
 
 const SYSTEM_PROMPT = `You are a learning companion inside a browser extension. The user is actively learning something and just wrote a few rough notes or keywords about it — often fragments, never full sentences. Your job is to expand their notes into a clear, useful explanation, grounded in the page they're on and any highlighted text. Build on what the user specifically wrote — do not just summarize the page.
 
-Structure the expansion as markdown with these sections, skipping any that don't apply:
+First, check whether the note is a genuine attempt to engage with the page's subject — even a fragment, a guess, or a wrong idea counts. If instead it's off-topic, a joke, filler, or otherwise unrelated to what the page is about, do NOT force a connection or get creative bridging it to the topic. Call it out directly instead: say plainly that it's not related to the page and tell them to write an actual thought about what they're reading. Keep that callout to one or two blunt, slightly no-nonsense sentences — no markdown headers, no forced positivity.
+
+Only if the note is a genuine (even rough or partial) attempt to engage with the topic, structure the expansion as markdown with these sections, skipping any that don't apply:
 - **Beginner explanation** — plain-language, no assumed background
 - **Technical explanation** — more precise/formal treatment
 - **Example** — a concrete example or short snippet if relevant
 - **Common mistakes** — pitfalls learners often hit
 - **Related concepts** — 2-4 concepts this connects to, and how
 
-Keep it concise and skimmable — this is a learning aid, not an essay.`;
+Keep it concise and skimmable — this is a learning aid, not an essay. When the note is off-topic, return an empty tags array — only tag genuine learning content.`;
 
 export async function callGemini(params: CallGeminiParams): Promise<GeminiExpansion> {
   const { apiKey, notes, pageTitle, selectionText } = params;
