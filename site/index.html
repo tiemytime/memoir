@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Learning Memory — a memory layer for learning</title>
+<title>Learning Memory: a memory layer for learning</title>
 <meta name="description" content="A browser extension that remembers your learning, not your chat history. Write your first thought, let AI build on it." />
 <style>
   :root {
@@ -52,9 +52,13 @@
     font-family: var(--font-sans);
   }
   img { max-width: 100%; display: block; }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
 
-  header.hero { padding: 88px 0 52px; position: relative; }
+  header.hero {
+    padding: 76px 0 64px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px;
+    align-items: center;
+  }
+  .hero-copy { max-width: 46ch; }
   .eyebrow {
     font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.02em;
     color: var(--gold-strong); margin-bottom: 22px;
@@ -68,13 +72,13 @@
   }
 
   h1 {
-    font-family: var(--font-serif); font-weight: 500; font-size: clamp(36px, 6vw, 56px);
-    margin: 0 0 20px; letter-spacing: -0.01em; line-height: 1.1; text-wrap: balance; max-width: 15ch;
+    font-family: var(--font-serif); font-weight: 500; font-size: clamp(32px, 3.6vw, 44px);
+    margin: 0 0 20px; letter-spacing: -0.01em; line-height: 1.15; text-wrap: balance;
   }
   h1 em { font-style: italic; color: var(--gold-strong); }
 
   .tagline {
-    font-size: 18px; line-height: 1.65; color: var(--text-dim); max-width: 54ch; margin: 0 0 32px;
+    font-size: 17px; line-height: 1.65; color: var(--text-dim); margin: 0 0 32px;
   }
   .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
   .btn {
@@ -86,9 +90,7 @@
   .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
   .btn-ghost:hover { border-color: var(--gold); color: var(--gold-strong); }
 
-  .hero-shot-frame {
-    margin-top: 56px; position: relative; max-width: 440px;
-  }
+  .hero-shot-frame { position: relative; }
   .hero-glow {
     position: absolute; inset: -40px; background: radial-gradient(
       ellipse at 30% 20%, rgba(var(--gold-rgb), 0.22), transparent 65%
@@ -118,8 +120,14 @@
   .thesis strong { color: var(--gold-strong); font-weight: 500; font-style: italic; }
 
   .feature-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
     background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+  }
+  @media (max-width: 860px) {
+    .feature-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .feature-grid { grid-template-columns: 1fr; }
   }
   .feature { background: var(--bg-elevated); padding: 22px 22px 24px; }
   .feature-label {
@@ -169,8 +177,11 @@
   footer a { color: var(--gold-strong); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
 
+  @media (max-width: 860px) {
+    header.hero { grid-template-columns: 1fr; gap: 40px; padding: 56px 0 40px; }
+    .hero-copy { max-width: none; }
+  }
   @media (max-width: 560px) {
-    header.hero { padding: 56px 0 36px; }
     footer { flex-direction: column; }
   }
 </style>
@@ -179,16 +190,18 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="eyebrow">browser extension</div>
-    <div class="quote-mark">"</div>
-    <h1>A memory layer for learning — <em>not a chat log.</em></h1>
-    <p class="tagline">
-      Learning Memory doesn't summarize the page for you. You write the rough thought first — even
-      a fragment — and it builds on exactly that, grounded in what you're reading.
-    </p>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://github.com/tiemytime/memoir">View source on GitHub →</a>
-      <a class="btn btn-ghost" href="#install">How to install</a>
+    <div class="hero-copy">
+      <div class="eyebrow">browser extension</div>
+      <div class="quote-mark">"</div>
+      <h1>A memory layer for learning. <em>Not a chat log.</em></h1>
+      <p class="tagline">
+        Learning Memory doesn't summarize the page for you. You write the rough thought first, even
+        just a fragment, and it builds on that, grounded in what you're reading.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/tiemytime/memoir">View source on GitHub →</a>
+        <a class="btn btn-ghost" href="#install">How to install</a>
+      </div>
     </div>
     <div class="hero-shot-frame">
       <div class="hero-glow"></div>
@@ -201,52 +214,53 @@
   <section>
     <p class="section-label">the idea</p>
     <p class="thesis">
-      <strong>"AI should never replace your first thought."</strong> Most AI tools fix scattered
-      learning by auto-summarizing everything — so you never actually engage with the material.
-      This does the opposite: the AI only acts after you start writing.
+      <strong>"AI should never replace your first thought."</strong> Most AI tools summarize
+      everything for you, so you stop engaging with what you're reading. This works the other way
+      round: you write first, and the AI only builds on that.
     </p>
   </section>
 
   <section>
     <p class="section-label">what it does</p>
     <h2>Verified, not aspirational</h2>
-    <p class="lede">Every feature below is implemented and tested working — not a roadmap.</p>
+    <p class="lede">Every feature below is already built and tested. None of this is a roadmap.</p>
     <div class="feature-grid">
       <div class="feature">
-        <p class="feature-label">01 — capture</p>
+        <p class="feature-label">01 / capture</p>
         <h3>Context-aware notebook</h3>
-        <p>Captures the page title and any text you've highlighted automatically when you start a
-          session — no manual copy-pasting.</p>
+        <p>Captures the page title and anything you've highlighted the moment you start a session.
+          No copy-pasting.</p>
       </div>
       <div class="feature">
-        <p class="feature-label">02 — expand</p>
+        <p class="feature-label">02 / expand</p>
         <h3>Grounded AI expansion</h3>
         <p>Gemini reads your rough note, the page, and your highlight, then returns a beginner
-          explanation, technical detail, example, and related concepts — built on what you wrote.</p>
+          explanation, a technical one, an example, and related concepts, all built on what you
+          actually wrote.</p>
       </div>
       <div class="feature">
-        <p class="feature-label">03 — honesty</p>
+        <p class="feature-label">03 / honesty</p>
         <h3>Pushes back when you're off-topic</h3>
-        <p>If your note has nothing to do with the page, it says so directly instead of forcing a
-          connection — a distinct callout, not a normal expansion.</p>
+        <p>Write something unrelated to the page and it tells you straight, in its own callout box,
+          rather than forcing a connection that isn't there.</p>
       </div>
       <div class="feature">
-        <p class="feature-label">04 — recall</p>
+        <p class="feature-label">04 / recall</p>
         <h3>Recall banner</h3>
-        <p>When a new session's concepts overlap something you explored days ago, it surfaces that
-          past session by name — automatically, without you searching for it.</p>
+        <p>Explored something similar a few days ago? It notices the overlap and surfaces that past
+          session by name. You don't have to go looking for it.</p>
       </div>
       <div class="feature">
-        <p class="feature-label">05 — map</p>
+        <p class="feature-label">05 / map</p>
         <h3>Connections view</h3>
-        <p>Groups every session by shared concept tag into a map of related learning, instead of a
-          flat, forgettable list.</p>
+        <p>Groups every session by shared concept tag into a map of related learning, rather than a
+          flat list you'll forget to scroll through.</p>
       </div>
       <div class="feature">
-        <p class="feature-label">06 — privacy</p>
+        <p class="feature-label">06 / privacy</p>
         <h3>Local-only by default</h3>
-        <p>Runs entirely in <code>chrome.storage.local</code> — no account, no backend. Only the
-          page title, your note, and highlight reach Gemini — never the URL.</p>
+        <p>Runs entirely in <code>chrome.storage.local</code>. No account, no backend. Only the page
+          title, your note, and highlight ever reach Gemini. Never the URL.</p>
       </div>
     </div>
   </section>
@@ -265,7 +279,7 @@
       </figure>
       <figure>
         <div class="frame"><img src="screenshots/popup.png" alt="The toolbar popup showing session count and the most recently explored topic" /></div>
-        <figcaption>A glance from the toolbar — no need to open the full workspace.</figcaption>
+        <figcaption>A glance from the toolbar. No need to open the full workspace.</figcaption>
       </figure>
     </div>
   </section>
@@ -274,7 +288,7 @@
     <p class="section-label">try it</p>
     <h2>Loaded locally in under a minute</h2>
     <p class="lede">
-      This is a Chrome extension, not a hosted web app — it runs inside your browser, so there's no
+      This is a Chrome extension, not a hosted web app. It runs inside your browser, so there's no
       URL to visit it at.
     </p>
     <ol class="steps">
