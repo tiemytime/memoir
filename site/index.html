@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Learning Memory — a memory layer for learning</title>
+<meta name="description" content="A browser extension that remembers your learning, not your chat history. Write your first thought, let AI build on it." />
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #efe7d6;
+    --bg-elevated: #f8f2e4;
+    --bg-card: rgba(42, 36, 28, 0.055);
+    --text: #2a2420;
+    --text-dim: rgba(42, 36, 32, 0.62);
+    --border: rgba(42, 36, 32, 0.15);
+    --ink: #3b4d80;
+    --ink-strong: #2e3d68;
+    --gold: #a9762e;
+    --gold-strong: #8f6222;
+    --gold-rgb: 169, 118, 46;
+    --font-sans: ui-sans-serif, -apple-system, "Segoe UI", system-ui, sans-serif;
+    --font-serif: ui-serif, Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #201b15; --bg-elevated: #29231b; --bg-card: rgba(241, 234, 217, 0.06);
+      --text: #f1ead9; --text-dim: rgba(241, 234, 217, 0.64); --border: rgba(241, 234, 217, 0.14);
+      --ink: #93a8dd; --ink-strong: #93a8dd; --gold: #dba552; --gold-strong: #e6b565;
+      --gold-rgb: 219, 165, 82;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+  }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  header.hero { padding: 72px 0 48px; }
+  .eyebrow {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--gold-strong); display: flex; align-items: center; gap: 7px; margin-bottom: 16px;
+  }
+  .eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 999px; background: var(--gold); }
+  h1 {
+    font-family: var(--font-serif); font-weight: 600; font-size: clamp(32px, 5vw, 48px);
+    margin: 0 0 16px; letter-spacing: -0.01em; text-wrap: balance; max-width: 16ch;
+  }
+  .tagline {
+    font-size: 18px; line-height: 1.6; color: var(--text-dim); max-width: 56ch; margin: 0 0 28px;
+  }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600;
+    padding: 11px 20px; border-radius: 9px; text-decoration: none; transition: opacity 0.15s ease;
+  }
+  .btn:hover { opacity: 0.88; }
+  .btn-primary { background: var(--ink-strong); color: white; }
+  .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+
+  .hero-shot {
+    margin-top: 48px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+    box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.35); max-width: 420px;
+  }
+
+  section { padding: 40px 0; border-top: 1px solid var(--border); }
+  section h2 {
+    font-family: var(--font-serif); font-size: 26px; font-weight: 600; margin: 0 0 10px;
+    letter-spacing: -0.01em;
+  }
+  section > .lede { color: var(--text-dim); font-size: 15px; line-height: 1.6; max-width: 62ch; margin: 0 0 32px; }
+
+  .thesis {
+    font-family: var(--font-serif); font-size: 20px; line-height: 1.6; max-width: 58ch;
+    padding-left: 18px; border-left: 2px solid rgba(var(--gold-rgb), 0.4);
+  }
+
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;
+  }
+  .feature {
+    background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .feature-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--gold-strong); margin: 0 0 8px; display: flex; align-items: center; gap: 6px;
+  }
+  .feature-label::before { content: ""; width: 6px; height: 6px; border-radius: 999px; background: var(--gold); flex-shrink: 0; }
+  .feature p { font-size: 14px; line-height: 1.55; color: var(--text-dim); margin: 0; }
+
+  .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .gallery figure { margin: 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+  .gallery figcaption {
+    padding: 12px 14px; font-size: 13px; color: var(--text-dim); background: var(--bg-elevated);
+  }
+
+  .steps { counter-reset: step; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .steps li {
+    counter-increment: step; display: flex; gap: 14px; align-items: flex-start;
+    font-size: 14.5px; line-height: 1.6;
+  }
+  .steps li::before {
+    content: counter(step); flex-shrink: 0; width: 24px; height: 24px; border-radius: 999px;
+    background: var(--ink-strong); color: white; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; font-family: var(--font-mono);
+  }
+  code {
+    font-family: var(--font-mono); font-size: 13px; background: var(--bg-card);
+    padding: 2px 7px; border-radius: 4px;
+  }
+
+  .stack-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .stack-list li {
+    font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-elevated);
+    border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; color: var(--text-dim);
+  }
+
+  footer {
+    padding: 40px 0 64px; border-top: 1px solid var(--border); color: var(--text-dim);
+    font-size: 13.5px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  footer a { color: var(--ink-strong); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 560px) {
+    header.hero { padding: 48px 0 32px; }
+    footer { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Browser extension</div>
+    <h1>A memory layer for learning — not a chat log.</h1>
+    <p class="tagline">
+      Learning Memory doesn't summarize the page for you. You write the rough thought first — even
+      a fragment — and it builds on exactly that, grounded in what you're reading.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/tiemytime/memoir">View source on GitHub →</a>
+      <a class="btn btn-ghost" href="#install">How to install</a>
+    </div>
+    <div class="hero-shot">
+      <img src="screenshots/expansion.png" alt="Learning Memory side panel showing a rough note expanded into a beginner and technical explanation of OAuth 2.0" />
+    </div>
+  </header>
+
+  <section>
+    <h2>The idea</h2>
+    <p class="thesis">
+      "AI should never replace your first thought." Most AI tools fix scattered learning by
+      auto-summarizing everything — so you never actually engage with the material. This does the
+      opposite: the AI only acts after you start writing.
+    </p>
+  </section>
+
+  <section>
+    <h2>What it actually does</h2>
+    <p class="lede">Every feature below is implemented and verified working — not a roadmap.</p>
+    <div class="feature-grid">
+      <div class="feature">
+        <p class="feature-label">Context-aware notebook</p>
+        <p>Captures the page title and any text you've highlighted automatically when you start a
+          session — no manual copy-pasting.</p>
+      </div>
+      <div class="feature">
+        <p class="feature-label">Grounded AI expansion</p>
+        <p>Gemini reads your rough note, the page, and your highlight, then returns a beginner
+          explanation, technical detail, example, common mistakes, and related concepts — built on
+          what you wrote, not a page summary.</p>
+      </div>
+      <div class="feature">
+        <p class="feature-label">Pushes back on off-topic notes</p>
+        <p>If your note has nothing to do with the page, it says so directly instead of forcing a
+          connection — a distinct gold callout, not a normal expansion.</p>
+      </div>
+      <div class="feature">
+        <p class="feature-label">Recall banner</p>
+        <p>When a new session's concepts overlap something you explored days ago, it surfaces that
+          past session by name — automatically, without you searching for it.</p>
+      </div>
+      <div class="feature">
+        <p class="feature-label">Connections view</p>
+        <p>Groups every session by shared concept tag into a map of related learning, instead of a
+          flat, forgettable list.</p>
+      </div>
+      <div class="feature">
+        <p class="feature-label">Local-only, private by default</p>
+        <p>Runs entirely in <code>chrome.storage.local</code> — no account, no backend. The only
+          network call is the page title, your note, and highlight going to Gemini for expansion —
+          never the URL.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>See it in action</h2>
+    <div class="gallery">
+      <figure>
+        <img src="screenshots/nudge.png" alt="The AI companion pushing back on an unrelated note with a gold NOT QUITE callout" />
+        <figcaption>Refuses to force a connection when your note is off-topic.</figcaption>
+      </figure>
+      <figure>
+        <img src="screenshots/connections.png" alt="A session reopened from Connections, showing its saved notes and AI expansion" />
+        <figcaption>Reopening a session from Connections restores its full context instantly.</figcaption>
+      </figure>
+      <figure>
+        <img src="screenshots/popup.png" alt="The toolbar popup showing session count and the most recently explored topic" />
+        <figcaption>A glance from the toolbar — no need to open the full workspace.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="install">
+    <h2>Try it</h2>
+    <p class="lede">
+      This is a Chrome extension, not a hosted web app — it runs inside your browser, so there's no
+      URL to visit. Load it locally in under a minute:
+    </p>
+    <ol class="steps">
+      <li>Clone the repo: <code>git clone https://github.com/tiemytime/memoir.git</code></li>
+      <li>Install and build: <code>pnpm install && pnpm build</code></li>
+      <li>Open <code>chrome://extensions</code>, enable <strong>Developer mode</strong>, click
+        <strong>Load unpacked</strong>, and select the <code>dist</code> folder.</li>
+      <li>Click the extension icon → <strong>Open Workspace</strong> → paste a free Gemini API key
+        from <a href="https://aistudio.google.com/apikey" style="color: var(--ink-strong)">aistudio.google.com/apikey</a>
+        in Settings.</li>
+      <li>Optional: click <strong>Load demo data</strong> in Settings to seed three past sessions,
+        so the recall banner has something to find immediately.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Stack</h2>
+    <ul class="stack-list">
+      <li>React 19</li>
+      <li>TypeScript</li>
+      <li>Vite + @crxjs</li>
+      <li>Manifest V3</li>
+      <li>BlockNote</li>
+      <li>Gemini 2.5 Flash</li>
+      <li>chrome.storage.local</li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>Learning Memory</span>
+    <a href="https://github.com/tiemytime/memoir">github.com/tiemytime/memoir</a>
+  </footer>
+
+</div>
+</body>
+</html>
