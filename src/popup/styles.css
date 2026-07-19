@@ -21,13 +21,14 @@ body {
   width: 10px;
   height: 10px;
   border-radius: 999px;
-  background: var(--accent);
-  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.18);
+  background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(var(--gold-rgb), 0.18);
 }
 
 .popup-title {
-  font-size: 14px;
-  font-weight: 700;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 
@@ -68,7 +69,7 @@ body {
   padding: 10px 16px;
   border-radius: 8px;
   border: none;
-  background: var(--accent-strong);
+  background: var(--ink-strong);
   color: white;
   font-size: 13px;
   font-weight: 600;

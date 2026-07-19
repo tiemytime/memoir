@@ -1,33 +1,51 @@
 :root {
   color-scheme: light dark;
-  --bg: #f7f5ef;
-  --bg-elevated: #ffffff;
-  --bg-card: rgba(46, 43, 38, 0.05);
-  --text: #2e2b26;
-  --text-dim: rgba(46, 43, 38, 0.6);
-  --accent: #d97757;
-  --accent-strong: #c15f3c;
-  --accent-rgb: 217, 119, 87;
-  --border: rgba(46, 43, 38, 0.14);
-  --border-soft: rgba(46, 43, 38, 0.08);
-  --warning: #b45309;
+
+  --bg: #efe7d6;
+  --bg-elevated: #f8f2e4;
+  --bg-card: rgba(42, 36, 28, 0.06);
+  --text: #2a2420;
+  --text-dim: rgba(42, 36, 32, 0.6);
+  --border: rgba(42, 36, 32, 0.16);
+  --border-soft: rgba(42, 36, 32, 0.09);
+
+  /* "you" — your notes, primary actions */
+  --ink: #3b4d80;
+  --ink-strong: #2e3d68;
+  --ink-rgb: 59, 77, 128;
+
+  /* "AI companion" — expansions, recall, thinking state */
+  --gold: #a9762e;
+  --gold-strong: #8f6222;
+  --gold-rgb: 169, 118, 46;
+
+  --warning: #c2410c;
   --error: #b91c1c;
-  font-family:
-    ui-sans-serif, "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --font-sans: ui-sans-serif, -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-serif: ui-serif, Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+
+  font-family: var(--font-sans);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #26241f;
-    --bg-elevated: #2f2c26;
-    --bg-card: rgba(247, 245, 239, 0.06);
-    --text: #f2efe7;
-    --text-dim: rgba(242, 239, 231, 0.62);
-    --accent: #e08b65;
-    --accent-strong: #d97757;
-    --accent-rgb: 224, 139, 101;
-    --border: rgba(247, 245, 239, 0.14);
-    --border-soft: rgba(247, 245, 239, 0.08);
+    --bg: #221d16;
+    --bg-elevated: #2b241b;
+    --bg-card: rgba(241, 234, 217, 0.06);
+    --text: #f1ead9;
+    --text-dim: rgba(241, 234, 217, 0.62);
+    --border: rgba(241, 234, 217, 0.14);
+    --border-soft: rgba(241, 234, 217, 0.08);
+
+    --ink: #93a8dd;
+    --ink-rgb: 147, 168, 221;
+
+    --gold: #dba552;
+    --gold-strong: #e6b565;
+    --gold-rgb: 219, 165, 82;
+
     --warning: #f0b429;
     --error: #f87171;
   }
