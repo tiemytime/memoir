@@ -9,8 +9,9 @@ import Companion from "./components/Companion";
 import History from "./components/History";
 import Settings from "./components/Settings";
 import RecallBanner from "./components/RecallBanner";
+import Connections from "./components/Connections";
 
-type View = "notebook" | "history" | "settings";
+type View = "notebook" | "history" | "connections" | "settings";
 
 export default function App() {
   const [sessions, setSessions] = useState<LearningSession[]>([]);
@@ -79,7 +80,6 @@ export default function App() {
         apiKey,
         notes,
         pageTitle: currentSession.pageTitle,
-        url: currentSession.url,
         selectionText: pageContext?.selectionText,
       });
       const updated = await updateSession(currentSession.id, {
@@ -101,6 +101,7 @@ export default function App() {
 
   function handleSelectSession(session: LearningSession) {
     setCurrentSession(session);
+    setPageContext({ title: session.pageTitle, url: session.url, selectionText: "" });
     setExpandError(null);
     setRelatedSessions([]);
     setView("notebook");
@@ -128,6 +129,12 @@ export default function App() {
           </button>
           <button
             className="btn btn-ghost"
+            onClick={() => setView(view === "connections" ? "notebook" : "connections")}
+          >
+            {view === "connections" ? "← Back" : "Connections"}
+          </button>
+          <button
+            className="btn btn-ghost"
             onClick={() => setView(view === "history" ? "notebook" : "history")}
           >
             {view === "history" ? "← Back" : "History"}
@@ -146,6 +153,8 @@ export default function App() {
           onSelect={handleSelectSession}
           onDelete={handleDeleteSession}
         />
+      ) : view === "connections" ? (
+        <Connections sessions={sessions} onSelect={handleSelectSession} />
       ) : currentSession ? (
         <div className="workspace">
           <RecallBanner
