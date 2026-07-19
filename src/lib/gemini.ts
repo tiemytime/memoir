@@ -95,8 +95,12 @@ Respond with JSON matching this exact shape:
     throw new Error("Gemini returned malformed output — try again.");
   }
 
+  // Gemini occasionally over-escapes when it embeds a code snippet inside the markdown string
+  // (e.g. literal \n and \" characters instead of real newlines/quotes) — normalize defensively.
+  const unescapeOverEscaped = (value: string) => value.replace(/\\n/g, "\n").replace(/\\"/g, '"');
+
   return {
-    expansion: parsed.expansion ?? "",
+    expansion: unescapeOverEscaped(parsed.expansion ?? ""),
     tags: (parsed.tags ?? [])
       .map((tag) => tag.toLowerCase().trim())
       .filter((tag) => tag.length > 0),
