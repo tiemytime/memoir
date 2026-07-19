@@ -16,9 +16,15 @@
   padding: 0 4px;
 }
 
+.notebook-editor .bn-container {
+  height: 100%;
+}
+
 .notebook-editor .ProseMirror {
   font-family: var(--font-mono);
   font-size: 13px;
+  min-height: 100%;
+  cursor: text;
 }
 
 .notebook-footer {

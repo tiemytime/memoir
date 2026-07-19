@@ -61,11 +61,11 @@ export default function Companion({
       {!expanding && !expandError && !session.aiExpansion && (
         <div className="companion-empty">
           <p className="companion-placeholder">
-            Write a few notes on the left, then click <strong>Expand</strong>.
+            A few words are plenty. Jot something on the left, then hit <strong>Expand</strong>.
           </p>
           <p className="companion-subtext">
-            The AI reads this page, your notes, and anything you've highlighted — then builds on
-            what you started, instead of replacing it.
+            I'll pull in the page and anything you've highlighted, and build on exactly what you
+            wrote.
           </p>
         </div>
       )}
