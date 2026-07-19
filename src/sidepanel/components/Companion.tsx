@@ -38,7 +38,6 @@ export default function Companion({
         {pageContext ? (
           <>
             <p className="context-title">{pageContext.title}</p>
-            <p className="context-url">{pageContext.url}</p>
             {pageContext.selectionText && (
               <p className="context-selection">"{pageContext.selectionText.slice(0, 140)}"</p>
             )}

@@ -19,7 +19,6 @@ interface CallGeminiParams {
   apiKey: string;
   notes: string;
   pageTitle: string;
-  url: string;
   selectionText?: string;
 }
 
@@ -35,12 +34,11 @@ Structure the expansion as markdown with these sections, skipping any that don't
 Keep it concise and skimmable — this is a learning aid, not an essay.`;
 
 export async function callGemini(params: CallGeminiParams): Promise<GeminiExpansion> {
-  const { apiKey, notes, pageTitle, url, selectionText } = params;
+  const { apiKey, notes, pageTitle, selectionText } = params;
 
   const prompt = `${SYSTEM_PROMPT}
 
 Page title: ${pageTitle}
-Page URL: ${url}
 ${selectionText ? `Highlighted text on the page: "${selectionText}"` : ""}
 
 User's rough notes:
