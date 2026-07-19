@@ -48,7 +48,9 @@ connection instead of leaving you to rediscover it from scratch:
    few concept tags.
 4. The session is saved locally. If its tags overlap a past session, a recall
    banner offers to reopen it.
-5. **History** lists every past session — searchable, reopenable, deletable.
+5. **History** lists every past session — reopenable, deletable. **Connections**
+   groups every session by shared concept tag, so related learning surfaces
+   as a map instead of a flat list.
 
 ## Setup
 
@@ -68,7 +70,7 @@ connection instead of leaving you to rediscover it from scratch:
 **Built:** notebook + context-aware AI expansion, local learning-session
 storage, tag-based connected-learning recall, a Connections view that groups
 every past session by shared concept tag, session history with
-search/delete, blocked-page guard so sessions only bind to real content.
+reopen/delete, blocked-page guard so sessions only bind to real content.
 
 **Deliberately not built for this build** (multi-month scope, not a 12-hour
 one): OCR/screenshot analysis, spaced-repetition scheduling and
