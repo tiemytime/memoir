@@ -3,6 +3,7 @@ import { marked } from "marked";
 import DOMPurify from "dompurify";
 import type { PageContext } from "../../lib/context";
 import type { LearningSession } from "../../types";
+import "./Companion.css";
 
 interface CompanionProps {
   session: LearningSession;

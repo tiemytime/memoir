@@ -1,5 +1,6 @@
 import { daysAgoLabel, type RelatedSession } from "../../lib/recall";
 import type { LearningSession } from "../../types";
+import "./RecallBanner.css";
 
 interface RecallBannerProps {
   related: RelatedSession[];

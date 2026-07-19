@@ -1,0 +1,75 @@
+.connections {
+  overflow-y: auto;
+  flex: 1;
+  padding: 12px 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.connections-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.connections-tag {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gold-strong);
+}
+
+.connections-tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.connections-tag-count {
+  font-weight: 500;
+  opacity: 0.55;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.connections-list {
+  list-style: none;
+  margin: 0;
+  padding: 2px 0 0 13px;
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.connections-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.connections-item:hover {
+  background: var(--bg-card);
+}
+
+.connections-empty {
+  padding: 32px 20px;
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0.6;
+  text-align: center;
+}

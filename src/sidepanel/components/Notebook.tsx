@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
+import "./Notebook.css";
 import type { LearningSession } from "../../types";
 
 interface NotebookProps {

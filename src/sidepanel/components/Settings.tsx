@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getApiKey, setApiKey } from "../../lib/gemini";
 import { loadDemoData } from "../../lib/seed";
+import "./Settings.css";
 
 interface SettingsProps {
   onClose: () => void;

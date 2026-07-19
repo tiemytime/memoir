@@ -1,0 +1,52 @@
+.notebook .panel-label::before {
+  background: var(--ink);
+}
+
+.notebook {
+  flex: 1.1;
+  display: flex;
+  flex-direction: column;
+  min-height: 180px;
+  border-bottom: 1px solid var(--border);
+}
+
+.notebook-editor {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 4px;
+}
+
+.notebook-editor .ProseMirror {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.notebook-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.expand-button {
+  padding: 7px 18px;
+  border-radius: 7px;
+  border: none;
+  background: var(--ink-strong);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.15s ease;
+}
+
+.expand-button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.expand-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}

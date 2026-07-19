@@ -1,5 +1,6 @@
 import { groupSessionsByTag } from "../../lib/recall";
 import type { LearningSession } from "../../types";
+import "./Connections.css";
 
 interface ConnectionsProps {
   sessions: LearningSession[];

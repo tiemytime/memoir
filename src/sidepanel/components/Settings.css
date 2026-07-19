@@ -1,0 +1,50 @@
+.settings {
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settings-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.settings-label input {
+  padding: 9px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+  background: transparent;
+  color: inherit;
+}
+
+.settings-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.settings-actions button {
+  padding: 6px 14px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  color: inherit;
+}
+
+.settings-hint {
+  font-size: 12px;
+  opacity: 0.55;
+  line-height: 1.5;
+}
+
+.settings-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 6px 0;
+}
