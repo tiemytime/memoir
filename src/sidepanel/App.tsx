@@ -85,6 +85,7 @@ export default function App() {
       const updated = await updateSession(currentSession.id, {
         aiExpansion: result.expansion,
         tags: result.tags,
+        offTopic: result.offTopic,
       });
       if (updated) {
         setCurrentSession(updated);

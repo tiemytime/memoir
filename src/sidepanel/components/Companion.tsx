@@ -55,7 +55,13 @@ export default function Companion({
         </div>
       )}
       {expandError && <p className="companion-error">{expandError}</p>}
-      {!expanding && !expandError && session.aiExpansion && (
+      {!expanding && !expandError && session.aiExpansion && session.offTopic && (
+        <div className="companion-nudge">
+          <span className="companion-nudge-label">Not quite</span>
+          {session.aiExpansion}
+        </div>
+      )}
+      {!expanding && !expandError && session.aiExpansion && !session.offTopic && (
         <div className="companion-expansion" dangerouslySetInnerHTML={{ __html: expansionHtml }} />
       )}
       {!expanding && !expandError && !session.aiExpansion && (

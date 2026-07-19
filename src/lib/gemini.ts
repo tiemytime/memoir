@@ -13,6 +13,7 @@ export async function setApiKey(key: string): Promise<void> {
 export interface GeminiExpansion {
   expansion: string;
   tags: string[];
+  offTopic: boolean;
 }
 
 interface CallGeminiParams {
@@ -50,8 +51,9 @@ ${notes}
 
 Respond with JSON matching this exact shape:
 {
-  "expansion": "the full markdown expansion as a string",
-  "tags": ["3-5 short lowercase concept tags"]
+  "expansion": "the full markdown expansion as a string, or the blunt callout if off-topic",
+  "tags": ["3-5 short lowercase concept tags, or an empty array if off-topic"],
+  "offTopic": true or false
 }`;
 
   const res = await fetch(
@@ -68,8 +70,9 @@ Respond with JSON matching this exact shape:
             properties: {
               expansion: { type: "STRING" },
               tags: { type: "ARRAY", items: { type: "STRING" } },
+              offTopic: { type: "BOOLEAN" },
             },
-            required: ["expansion", "tags"],
+            required: ["expansion", "tags", "offTopic"],
           },
         },
       }),
@@ -85,7 +88,7 @@ Respond with JSON matching this exact shape:
   const text: string | undefined = data?.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) throw new Error("Gemini returned no content — try again.");
 
-  let parsed: { expansion?: string; tags?: string[] };
+  let parsed: { expansion?: string; tags?: string[]; offTopic?: boolean };
   try {
     parsed = JSON.parse(text);
   } catch {
@@ -97,5 +100,6 @@ Respond with JSON matching this exact shape:
     tags: (parsed.tags ?? [])
       .map((tag) => tag.toLowerCase().trim())
       .filter((tag) => tag.length > 0),
+    offTopic: Boolean(parsed.offTopic),
   };
 }

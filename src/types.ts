@@ -7,4 +7,5 @@ export interface LearningSession {
   notes: string;
   aiExpansion?: string;
   tags: string[];
+  offTopic?: boolean;
 }
