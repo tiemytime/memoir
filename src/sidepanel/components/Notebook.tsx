@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { BlockNoteSchema, defaultBlockSpecs } from "@blocknote/core";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
@@ -14,8 +15,18 @@ interface NotebookProps {
 
 const SAVE_DEBOUNCE_MS = 500;
 
+// No file storage exists yet, so media blocks would just be broken — leave them out of the schema
+// entirely rather than merely hiding them from the slash menu.
+const MEDIA_BLOCK_KEYS = ["audio", "file", "image", "video"] as const;
+const blockSpecsWithoutMedia = Object.fromEntries(
+  Object.entries(defaultBlockSpecs).filter(
+    ([key]) => !(MEDIA_BLOCK_KEYS as readonly string[]).includes(key),
+  ),
+) as Omit<typeof defaultBlockSpecs, (typeof MEDIA_BLOCK_KEYS)[number]>;
+const schema = BlockNoteSchema.create({ blockSpecs: blockSpecsWithoutMedia });
+
 export default function Notebook({ session, onNotesChange, onExpand, expanding }: NotebookProps) {
-  const editor = useCreateBlockNote();
+  const editor = useCreateBlockNote({ schema });
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const loadedSessionId = useRef<string | null>(null);
   const [hasContent, setHasContent] = useState(Boolean(session.notes.trim()));
